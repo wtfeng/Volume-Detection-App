@@ -1,6 +1,7 @@
 package com.example.volumedetection
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -67,10 +68,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LanguageHelper.wrapContext(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        // 应用保存的语言设置
-        LanguageHelper.applySavedLanguage(this)
-        
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

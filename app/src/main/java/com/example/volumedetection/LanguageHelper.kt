@@ -38,6 +38,31 @@ object LanguageHelper {
             .apply()
     }
     
+    fun wrapContext(context: Context): Context {
+        val language = getSavedLanguage(context)
+        if (language == LANGUAGE_SYSTEM) {
+            return context
+        }
+        
+        val locale = when (language) {
+            LANGUAGE_CHINESE -> Locale.CHINESE
+            LANGUAGE_ENGLISH -> Locale.ENGLISH
+            else -> getSystemLocale()
+        }
+        
+        Locale.setDefault(locale)
+        val config = Configuration(context.resources.configuration)
+        config.setLocale(locale)
+        
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.createConfigurationContext(config)
+        } else {
+            @Suppress("DEPRECATION")
+            context.resources.updateConfiguration(config, context.resources.displayMetrics)
+            context
+        }
+    }
+    
     fun getSavedLanguage(context: Context): String {
         return PreferenceManager.getDefaultSharedPreferences(context)
             .getString(PREF_LANGUAGE, LANGUAGE_SYSTEM) ?: LANGUAGE_SYSTEM
