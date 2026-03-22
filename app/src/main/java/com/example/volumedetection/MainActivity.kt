@@ -7,11 +7,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
@@ -65,6 +68,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // 应用保存的语言设置
+        LanguageHelper.applySavedLanguage(this)
+        
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -242,6 +248,40 @@ class MainActivity : AppCompatActivity() {
         stopService(serviceIntent)
         
         Log.i(TAG, "✅ Detection stopped")
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+    
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_language -> {
+                showLanguageSelectionDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+    
+    private fun showLanguageSelectionDialog() {
+        val languages = LanguageHelper.getAvailableLanguages()
+        val currentLanguage = LanguageHelper.getSavedLanguage(this)
+        
+        val languageNames = languages.map { getString(it.nameResId) }.toTypedArray()
+        val currentIndex = languages.indexOfFirst { it.code == currentLanguage }
+        
+        AlertDialog.Builder(this)
+            .setTitle(R.string.language_selection_title)
+            .setSingleChoiceItems(languageNames, currentIndex) { dialog, which ->
+                val selectedLanguage = languages[which]
+                LanguageHelper.setLocale(this, selectedLanguage.code)
+                dialog.dismiss()
+                recreate() // 重启Activity以应用新语言
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     override fun onDestroy() {

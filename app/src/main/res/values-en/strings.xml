@@ -37,4 +37,11 @@
     <!-- Default Values -->
     <string name="default_threshold">85</string>
     <string name="default_music_volume">100</string>
+    
+    <!-- Menu -->
+    <string name="menu_language">Language</string>
+    <string name="language_selection_title">Select Language</string>
+    <string name="language_chinese">中文</string>
+    <string name="language_english">English</string>
+    <string name="language_system_default">System Default</string>
 </resources>
