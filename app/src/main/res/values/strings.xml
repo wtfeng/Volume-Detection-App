@@ -1,4 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">声音太大检测</string>
+    
+    <!-- 主界面 -->
+    <string name="title_sound_detector">声音检测器</string>
+    <string name="current_volume">当前音量：%1$d dB</string>
+    <string name="status_not_started">状态：未开始</string>
+    <string name="hint_threshold">声音阈值 (dB)</string>
+    <string name="hint_music_volume">音乐播放音量 (0-100)</string>
+    <string name="button_select_music">选择音乐文件</string>
+    <string name="default_music_name">使用默认铃声（可点击更改）</string>
+    <string name="button_start_detection">开始检测</string>
+    
+    <!-- 状态文本 -->
+    <string name="status_too_loud">状态：声音过大！播放音乐...</string>
+    <string name="status_playing_music">状态：正在播放音乐</string>
+    <string name="status_detecting">状态：检测中</string>
+    <string name="status_stopped">状态：已停止</string>
+    <string name="button_stop">停止</string>
+    <string name="button_stop_detection">停止检测</string>
+    
+    <!-- 音乐选择 -->
+    <string name="music_selected">已选择音乐：%1$s</string>
+    <string name="music_reset_to_default">使用默认铃声（已重置）</string>
+    <string name="toast_default_ringtone_reset">已重置为默认铃声</string>
+    
+    <!-- 权限 -->
+    <string name="toast_permission_required">需要录音权限才能检测声音</string>
+    
+    <!-- 通知 -->
+    <string name="notification_channel_name">声音检测服务</string>
+    <string name="notification_channel_desc">保持声音检测在后台运行</string>
+    <string name="notification_title">声音检测中</string>
+    <string name="notification_content">正在监测环境声音</string>
+    
+    <!-- 默认值 -->
+    <string name="default_threshold">85</string>
+    <string name="default_music_volume">100</string>
 </resources>

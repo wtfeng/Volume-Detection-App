@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sound Too Loud Detection</string>
+    
+    <!-- Main Activity -->
+    <string name="title_sound_detector">Sound Detector</string>
+    <string name="current_volume">Current volume: %1$d dB</string>
+    <string name="status_not_started">Status: Not started</string>
+    <string name="hint_threshold">Sound threshold (dB)</string>
+    <string name="hint_music_volume">Music playback volume (0-100)</string>
+    <string name="button_select_music">Select Music File</string>
+    <string name="default_music_name">Using default ringtone (tap to change)</string>
+    <string name="button_start_detection">Start Detection</string>
+    
+    <!-- Status Text -->
+    <string name="status_too_loud">Status: Sound too loud! Playing music...</string>
+    <string name="status_playing_music">Status: Playing music</string>
+    <string name="status_detecting">Status: Detecting</string>
+    <string name="status_stopped">Status: Stopped</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_stop_detection">Stop Detection</string>
+    
+    <!-- Music Selection -->
+    <string name="music_selected">Selected music: %1$s</string>
+    <string name="music_reset_to_default">Using default ringtone (reset)</string>
+    <string name="toast_default_ringtone_reset">Reset to default ringtone</string>
+    
+    <!-- Permissions -->
+    <string name="toast_permission_required">Recording permission required to detect sound</string>
+    
+    <!-- Notifications -->
+    <string name="notification_channel_name">Sound Detection Service</string>
+    <string name="notification_channel_desc">Keep sound detection running in background</string>
+    <string name="notification_title">Sound Detection</string>
+    <string name="notification_content">Monitoring ambient sound</string>
+    
+    <!-- Default Values -->
+    <string name="default_threshold">85</string>
+    <string name="default_music_volume">100</string>
+</resources>

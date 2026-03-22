@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         if (audioGranted) {
             startDetection()
         } else {
-            Toast.makeText(this, "需要录音权限才能检测声音", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.toast_permission_required, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     ) { uri: Uri? ->
         if (uri != null) {
             musicUri = uri
-            musicNameText.text = "已选择音乐：${uri.lastPathSegment}"
+            musicNameText.text = getString(R.string.music_selected, uri.lastPathSegment)
             try {
                 contentResolver.takePersistableUriPermission(
                     uri,
@@ -81,6 +81,10 @@ class MainActivity : AppCompatActivity() {
         selectMusicBtn = findViewById(R.id.selectMusicBtn)
         musicNameText = findViewById(R.id.musicNameText)
         startBtn = findViewById(R.id.startBtn)
+        
+        // 设置初始文本，避免显示占位符
+        currentVolumeText.text = getString(R.string.current_volume, 0)
+        statusText.text = getString(R.string.status_not_started)
     }
 
     private fun setupListeners() {
@@ -88,8 +92,8 @@ class MainActivity : AppCompatActivity() {
             // 长按按钮重置为默认铃声
             selectMusicBtn.setOnLongClickListener {
                 musicUri = null
-                musicNameText.text = "使用默认铃声（已重置）"
-                Toast.makeText(this, "已重置为默认铃声", Toast.LENGTH_SHORT).show()
+                musicNameText.text = getString(R.string.music_reset_to_default)
+                Toast.makeText(this, R.string.toast_default_ringtone_reset, Toast.LENGTH_SHORT).show()
                 true
             }
             // 短按选择音乐
@@ -150,14 +154,14 @@ class MainActivity : AppCompatActivity() {
             override fun onThresholdExceeded() {
                 Log.w(TAG, "⚠️ THRESHOLD EXCEEDED - Triggering alarm!")
                 runOnUiThread {
-                    statusText.text = "状态：声音过大！播放音乐..."
+                    statusText.text = getString(R.string.status_too_loud)
                 }
                 musicService?.playMusic()
             }
 
             override fun onVolumeChanged(dbLevel: Double) {
                 runOnUiThread {
-                    currentVolumeText.text = "当前音量：${dbLevel.toInt()} dB"
+                    currentVolumeText.text = getString(R.string.current_volume, dbLevel.toInt())
                     volumeProgressBar.progress = (dbLevel / 120 * 100).toInt().coerceIn(0, 100)
                 }
             }
@@ -166,8 +170,8 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, "▶️ Playback started")
                 // SoundDetector 已经在触发时自动暂停了
                 runOnUiThread {
-                    statusText.text = "状态：正在播放音乐"
-                    startBtn.text = "停止"
+                    statusText.text = getString(R.string.status_playing_music)
+                    startBtn.text = getString(R.string.button_stop)
                 }
             }
 
@@ -175,8 +179,8 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, "⏹️ Playback finished - Resuming detection")
                 soundDetector?.resumeDetection()
                 runOnUiThread {
-                    statusText.text = "状态：检测中"
-                    startBtn.text = "停止检测"
+                        statusText.text = getString(R.string.status_detecting)
+                        startBtn.text = getString(R.string.button_stop_detection)
                 }
             }
 
@@ -186,8 +190,8 @@ class MainActivity : AppCompatActivity() {
                     // 如果当前没有在播放音乐，重置状态为检测中
                     val playing = musicService?.isPlaying() ?: false
                     if (!playing) {
-                        statusText.text = "状态：检测中"
-                        startBtn.text = "停止检测"
+                    statusText.text = getString(R.string.status_detecting)
+                    startBtn.text = getString(R.string.button_stop_detection)
                     } else {
                         Log.d(TAG, "Music is still playing, not resetting UI")
                     }
@@ -205,8 +209,8 @@ class MainActivity : AppCompatActivity() {
         )
 
         isDetecting = true
-        startBtn.text = "停止检测"
-        statusText.text = "状态：检测中"
+        startBtn.text = getString(R.string.button_stop_detection)
+        statusText.text = getString(R.string.status_detecting)
         Log.i(TAG, "✅ Detection started successfully")
         
         // 启动前台服务以保持后台运行
@@ -228,9 +232,9 @@ class MainActivity : AppCompatActivity() {
         musicService = null
 
         isDetecting = false
-        startBtn.text = "开始检测"
-        statusText.text = "状态：已停止"
-        currentVolumeText.text = "当前音量：0 dB"
+        startBtn.text = getString(R.string.button_start_detection)
+        statusText.text = getString(R.string.status_stopped)
+        currentVolumeText.text = getString(R.string.current_volume, 0)
         volumeProgressBar.progress = 0
         
         // 停止前台服务
